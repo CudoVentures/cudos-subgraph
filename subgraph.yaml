@@ -1,0 +1,27 @@
+specVersion: 0.0.2
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: VestingContract
+    network: mainnet
+    source:
+      address: "0xb3ccb8FB2533E51893915908CEb85763CeaeA97b"
+      abi: VestingContract
+      startBlock: 11633453
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      entities:
+        - VestingDrawDown
+        - VestingBeneficiary
+      abis:
+        - name: VestingContract
+          file: ./abis/VestingContract.json
+      eventHandlers:
+        - event: DrawDown(indexed address,indexed uint256,indexed uint256)
+          handler: handleDrawDown
+        - event: ScheduleCreated(indexed address,indexed uint256,indexed uint256,uint256)
+          handler: handleScheduleCreated
+      file: ./src/vesting-mapping.ts

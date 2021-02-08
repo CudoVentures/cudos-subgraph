@@ -1,0 +1,21 @@
+type VestingDrawDown @entity {
+  id: ID!
+  beneficiary: Bytes!
+  amount: BigDecimal!
+  timestamp: BigInt!
+}
+
+type VestingBeneficiary @entity {
+  id: ID!
+  beneficiary: Bytes!
+  start: BigInt!,
+  duration:BigInt!
+  totalAmountVested: BigDecimal!,
+  totalAmountDrawnDown: BigDecimal!
+}
+
+type VestingSummary @entity {
+  id: ID!
+  totalAmountVested: BigDecimal!
+  totalAmountDrawnDown: BigDecimal!
+}
