@@ -1,12 +1,16 @@
 import {
-    DrawDown, ScheduleCreated
+    DrawDown, ScheduleCreated, VestingContract, VestingContract__vestingScheduleForBeneficiaryResult
 } from "../generated/VestingContract/VestingContract";
+
 
 import {VestingDrawDown, VestingBeneficiary, VestingSummary} from "../generated/schema";
 
 import {toEther, ZERO_BIG_DECIMAL} from "./helpers";
 
 export function handleScheduleCreated(event: ScheduleCreated): void {
+
+    let vestingContract = VestingContract.bind(event.address);
+    let schedule = vestingContract.vestingScheduleForBeneficiary(event.params._beneficiary);
 
     // beneficiary
     let vestingBeneficiaryEntity = VestingBeneficiary.load(event.params._beneficiary.toHexString());
@@ -16,11 +20,12 @@ export function handleScheduleCreated(event: ScheduleCreated): void {
         vestingBeneficiaryEntity.beneficiary = event.params._beneficiary;
         vestingBeneficiaryEntity.totalAmountVested = toEther(event.params._amount);
         vestingBeneficiaryEntity.start = event.params._start;
+        vestingBeneficiaryEntity.end = schedule.value1;
+        vestingBeneficiaryEntity.cliff = schedule.value2;
         vestingBeneficiaryEntity.duration = event.params._duration;
         vestingBeneficiaryEntity.totalAmountDrawnDown = ZERO_BIG_DECIMAL;
     }
 
-    vestingBeneficiaryEntity.totalAmountDrawnDown = vestingBeneficiaryEntity.totalAmountDrawnDown.plus(toEther(event.params._amount));
     vestingBeneficiaryEntity.save();
 
     // summary

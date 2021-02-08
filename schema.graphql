@@ -9,6 +9,8 @@ type VestingBeneficiary @entity {
   id: ID!
   beneficiary: Bytes!
   start: BigInt!,
+  end: BigInt!,
+  cliff: BigInt!,
   duration:BigInt!
   totalAmountVested: BigDecimal!,
   totalAmountDrawnDown: BigDecimal!
