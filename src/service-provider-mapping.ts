@@ -41,7 +41,7 @@ function safeLoadServiceProvider(id: string): ServiceProvider {
         entity.exited = false
         entity.rewardsFeePercentage = ZERO
         entity.totalDelegatedStake = ZERO
-        entity.rewardsProgrammeId
+        entity.rewardsProgrammeId = ZERO
     }
 
     return entity as ServiceProvider
@@ -54,6 +54,7 @@ export function handleServiceProviderStakedBond(event: StakedServiceProviderBond
 
     const serviceProviderContract = ServiceProviderContract.bind(event.address)
     serviceProvider.rewardsFeePercentage = serviceProviderContract.rewardsFeePercentage()
+    serviceProvider.totalDelegatedStake = serviceProviderContract.delegatedStake(event.params.serviceProvider)
 
     serviceProvider.save()
 }

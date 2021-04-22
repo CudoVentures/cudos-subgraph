@@ -29,19 +29,28 @@ dataSources:
     name: ServiceProvider
     network: rinkeby
     source:
-      address: "0xf0B609975372bA0455FFe5B1344e2eF27ACBc1Ed"
+      address: "0xCE17A72AC465D5f0425134f65b3F89A2B8b8eA44"
       abi: ServiceProvider
-      startBlock: 8249595
+      startBlock: 8457629
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.3
       language: wasm/assemblyscript
       entities:
         - AddDelegatedStake
+        - StakedServiceProviderBond
+        - WithdrawDelegatedStakeRequested
+        - WithdrewDelegatedStake
       abis:
         - name: ServiceProvider
           file: ./abis/ServiceProvider.json
       eventHandlers:
+        - event: StakedServiceProviderBond(indexed address,indexed address,indexed uint256,uint256)
+          handler: handleServiceProviderStakedBond
         - event: AddDelegatedStake(indexed address,indexed uint256,uint256)
           handler: handleStakeDelegatedToServiceProvider
+        - event: WithdrawDelegatedStakeRequested(indexed address,indexed uint256,uint256)
+          handler: handleDelegatedStakeWithdrawalRequested
+        - event: WithdrewDelegatedStake(indexed address,indexed uint256,uint256)
+          handler: handleDelegatedStakeWithdrawn
       file: ./src/service-provider-mapping.ts
