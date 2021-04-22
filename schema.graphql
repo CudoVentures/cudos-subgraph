@@ -21,3 +21,22 @@ type VestingSummary @entity {
   totalAmountVested: BigDecimal!
   totalAmountDrawnDown: BigDecimal!
 }
+
+type Delegator @entity {
+  id: ID!
+  delegator: Bytes!
+  serviceProvider: Bytes!
+  delegatedStake: BigInt!
+  withdrawalRequested: Boolean!
+  withdrawalRequestAmount: BigInt!
+  withdrawalPermittedFrom: BigInt!
+}
+
+type ServiceProvider @entity {
+  id: ID!
+  isServiceProviderActive: Boolean!
+  exited: Boolean!
+  rewardsFeePercentage: BigInt!
+  totalDelegatedStake: BigInt!
+  rewardsProgrammeId: BigInt!
+}
