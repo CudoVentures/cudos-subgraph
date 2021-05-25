@@ -29,9 +29,9 @@ dataSources:
     name: ServiceProvider
     network: rinkeby
     source:
-      address: "0xCE17A72AC465D5f0425134f65b3F89A2B8b8eA44"
+      address: "0x9ff72b92a2A310Ee089A7901a6E2A59E162728c0"
       abi: ServiceProvider
-      startBlock: 8457629
+      startBlock: 8647752
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.3
