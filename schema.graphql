@@ -40,3 +40,7 @@ type ServiceProvider @entity {
   totalDelegatedStake: BigInt!
   rewardsProgrammeId: BigInt!
 }
+
+type StakingRewards @entity {
+  id: ID!
+}

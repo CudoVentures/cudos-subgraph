@@ -25,17 +25,65 @@ dataSources:
 #        - event: ScheduleCreated(indexed address,indexed uint256,indexed uint256,uint256)
 #          handler: handleScheduleCreated
 #      file: ./src/vesting-mapping.ts
+#  - kind: ethereum/contract
+#    name: ServiceProvider
+#    network: rinkeby
+#    source:
+#      address: "0x9ff72b92a2A310Ee089A7901a6E2A59E162728c0"
+#      abi: ServiceProvider
+#      startBlock: 8647752
+#    mapping:
+#      kind: ethereum/events
+#      apiVersion: 0.0.3
+#      language: wasm/assemblyscript
+#      entities:
+#        - AddDelegatedStake
+#        - StakedServiceProviderBond
+#        - WithdrawDelegatedStakeRequested
+#        - WithdrewDelegatedStake
+#      abis:
+#        - name: ServiceProvider
+#          file: ./abis/ServiceProvider.json
+#      eventHandlers:
+#        - event: StakedServiceProviderBond(indexed address,indexed address,indexed uint256,uint256)
+#          handler: handleServiceProviderStakedBond
+#        - event: AddDelegatedStake(indexed address,indexed uint256,uint256)
+#          handler: handleStakeDelegatedToServiceProvider
+#        - event: WithdrawDelegatedStakeRequested(indexed address,indexed uint256,uint256)
+#          handler: handleDelegatedStakeWithdrawalRequested
+#        - event: WithdrewDelegatedStake(indexed address,indexed uint256,uint256)
+#          handler: handleDelegatedStakeWithdrawn
+#      file: ./src/service-provider-mapping.ts
   - kind: ethereum/contract
     name: ServiceProvider
     network: rinkeby
     source:
-      address: "0x9ff72b92a2A310Ee089A7901a6E2A59E162728c0"
-      abi: ServiceProvider
-      startBlock: 8647752
+      address: '0x44867664a14f99562adf66aeaa435461bf712cb2'
+      abi: StakingRewards
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.3
       language: wasm/assemblyscript
+      file: ./src/staking_rewards.ts
+      entities:
+        - Directory
+      abis:
+        - name: StakingRewards
+          file: ./abis/StakingRewards.json
+      eventHandlers:
+        - event: ServiceProviderWhitelisted(indexed address)
+          handler: handleNewServiceProviderWhitelisted
+templates:
+  - name: ServiceProvider
+    kind: ethereum/contract
+    network: rinkeby
+    source:
+      abi: ServiceProvider
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      file: ./src/service-provider-mapping.ts
       entities:
         - AddDelegatedStake
         - StakedServiceProviderBond
@@ -53,4 +101,3 @@ dataSources:
           handler: handleDelegatedStakeWithdrawalRequested
         - event: WithdrewDelegatedStake(indexed address,indexed uint256,uint256)
           handler: handleDelegatedStakeWithdrawn
-      file: ./src/service-provider-mapping.ts

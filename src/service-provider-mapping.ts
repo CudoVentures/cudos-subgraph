@@ -9,7 +9,7 @@ import {
     WithdrawDelegatedStakeRequested,
     WithdrewDelegatedStake,
     ServiceProvider as ServiceProviderContract
-} from "../generated/ServiceProvider/ServiceProvider"
+} from "../generated/templates/ServiceProvider/ServiceProvider"
 
 import {ZERO} from "./helpers"
 import {Address} from "@graphprotocol/graph-ts/index";
