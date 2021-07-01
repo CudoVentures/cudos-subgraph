@@ -11,11 +11,12 @@ import {
     ServiceProvider as ServiceProviderContract,
     IncreasedServiceProviderBond,
     DecreasedServiceProviderBond,
-    ExitedServiceProviderBond
+    ExitedServiceProviderBond, ExitDelegatedStake
 } from "../generated/templates/ServiceProvider/ServiceProvider"
 
 import {ZERO} from "./helpers"
 import {Address} from "@graphprotocol/graph-ts/index";
+import {BigInt} from "@graphprotocol/graph-ts";
 
 // loads a delegator for a specific service provider
 function safeLoadDelegator(delegator: Address, serviceProvider: Address): Delegation {
@@ -90,7 +91,7 @@ export function handleDecreasedServiceProviderBond(event: DecreasedServiceProvid
     serviceProvider.totalDelegatedStake = serviceProvider.totalDelegatedStake.minus(event.params.amount)
     serviceProvider.withdrawalRequestAmount = serviceProvider.withdrawalRequestAmount.plus(event.params.amount)
     const serviceProviderContract = ServiceProviderContract.bind(event.address)
-    serviceProvider.withdrawalPermittedFrom = serviceProviderContract.withdrawalRequest(Address.fromString(serviceProvider.serviceProviderManager.toString())).value0
+    serviceProvider.withdrawalPermittedFrom = serviceProviderContract.withdrawalRequest(event.params.serviceProvider).value0
     serviceProvider.save()
 }
 
@@ -106,7 +107,7 @@ export function handleExitedServiceProviderBond(event: ExitedServiceProviderBond
     serviceProvider.exited = true
     serviceProvider.isServiceProviderActive = false
     const serviceProviderContract = ServiceProviderContract.bind(event.address)
-    serviceProvider.withdrawalPermittedFrom = serviceProviderContract.withdrawalRequest(Address.fromString(serviceProvider.serviceProviderManager.toString())).value0
+    serviceProvider.withdrawalPermittedFrom = serviceProviderContract.withdrawalRequest(event.params.serviceProvider).value0
     serviceProvider.withdrawalRequestAmount = serviceProvider.withdrawalRequestAmount.plus(serviceProvider.serviceProviderBond)
     serviceProvider.totalDelegatedStake = serviceProvider.totalDelegatedStake.minus(serviceProvider.serviceProviderBond)
     serviceProvider.serviceProviderBond = ZERO
@@ -127,17 +128,25 @@ export function handleDelegatedStakeWithdrawalRequested(event: WithdrawDelegated
 }
 
 export function handleDelegatedStakeWithdrawn(event: WithdrewDelegatedStake): void {
-    let delegator = safeLoadDelegator(event.params.user, event.address)
+    handleDelegatedStakeWithdrawal(event.params.user, event.address, event.params.totalAmount, event.params.amount)
+}
+
+export function handleExitDelegatedStake(event: ExitDelegatedStake): void {
+    handleDelegatedStakeWithdrawal(event.params.user, event.address, ZERO, event.params.amount)
+}
+
+function handleDelegatedStakeWithdrawal(user: Address, sp: Address, totalDelegated: BigInt, withdraw: BigInt): void {
+    let delegator = safeLoadDelegator(user, sp)
 
     delegator.withdrawalRequested = false
     delegator.withdrawalRequestAmount = ZERO
     delegator.withdrawalPermittedFrom = ZERO
 
-    delegator.delegatedStake = event.params.totalAmount
+    delegator.delegatedStake = totalDelegated
 
     delegator.save()
 
-    let serviceProvider = safeLoadServiceProvider(event.address.toHexString())
-    serviceProvider.totalDelegatedStake = serviceProvider.totalDelegatedStake.minus(event.params.amount)
+    let serviceProvider = safeLoadServiceProvider(sp.toHexString())
+    serviceProvider.totalDelegatedStake = serviceProvider.totalDelegatedStake.minus(withdraw)
     serviceProvider.save()
 }

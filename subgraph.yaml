@@ -2,63 +2,11 @@ specVersion: 0.0.2
 schema:
   file: ./schema.graphql
 dataSources:
-#  - kind: ethereum/contract
-#    name: VestingContract
-#    network: mainnet
-#    source:
-#      address: "0xb3ccb8FB2533E51893915908CEb85763CeaeA97b"
-#      abi: VestingContract
-#      startBlock: 11633453
-#    mapping:
-#      kind: ethereum/events
-#      apiVersion: 0.0.3
-#      language: wasm/assemblyscript
-#      entities:
-#        - VestingDrawDown
-#        - VestingBeneficiary
-#      abis:
-#        - name: VestingContract
-#          file: ./abis/VestingContract.json
-#      eventHandlers:
-#        - event: DrawDown(indexed address,indexed uint256,indexed uint256)
-#          handler: handleDrawDown
-#        - event: ScheduleCreated(indexed address,indexed uint256,indexed uint256,uint256)
-#          handler: handleScheduleCreated
-#      file: ./src/vesting-mapping.ts
-#  - kind: ethereum/contract
-#    name: ServiceProvider
-#    network: rinkeby
-#    source:
-#      address: "0x9ff72b92a2A310Ee089A7901a6E2A59E162728c0"
-#      abi: ServiceProvider
-#      startBlock: 8647752
-#    mapping:
-#      kind: ethereum/events
-#      apiVersion: 0.0.3
-#      language: wasm/assemblyscript
-#      entities:
-#        - AddDelegatedStake
-#        - StakedServiceProviderBond
-#        - WithdrawDelegatedStakeRequested
-#        - WithdrewDelegatedStake
-#      abis:
-#        - name: ServiceProvider
-#          file: ./abis/ServiceProvider.json
-#      eventHandlers:
-#        - event: StakedServiceProviderBond(indexed address,indexed address,indexed uint256,uint256)
-#          handler: handleServiceProviderStakedBond
-#        - event: AddDelegatedStake(indexed address,indexed uint256,uint256)
-#          handler: handleStakeDelegatedToServiceProvider
-#        - event: WithdrawDelegatedStakeRequested(indexed address,indexed uint256,uint256)
-#          handler: handleDelegatedStakeWithdrawalRequested
-#        - event: WithdrewDelegatedStake(indexed address,indexed uint256,uint256)
-#          handler: handleDelegatedStakeWithdrawn
-#      file: ./src/service-provider-mapping.ts
   - kind: ethereum/contract
     name: ServiceProvider
     network: rinkeby
     source:
-      address: '0x9a33adfeb3e5e480b040a80e90719f0efaadb7d9'
+      address: '0x2b0C98b9fBc72544B766eaa1D2dF003De88BD04f'
       abi: StakingRewards
       startBlock: 8819361
     mapping:
@@ -114,3 +62,5 @@ templates:
           handler: handleWithdrewServiceProviderStake
         - event: ExitedServiceProviderBond(indexed address,indexed uint256)
           handler: handleExitedServiceProviderBond
+        - event: ExitDelegatedStake(indexed address,indexed uint256)
+          handler: handleExitDelegatedStake
