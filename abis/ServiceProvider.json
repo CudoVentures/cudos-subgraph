@@ -225,6 +225,31 @@
     "type": "event"
   },
   {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "serviceProvider",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "totalAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "WithdrewServiceProviderStake",
+    "type": "event"
+  },
+  {
     "inputs": [],
     "name": "PERCENTAGE_MODULO",
     "outputs": [
@@ -412,6 +437,19 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "minStakingLength",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -462,6 +500,19 @@
       }
     ],
     "name": "requestDelegatedStakeWithdrawal",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "requestExcessServiceProviderStakeWithdrawal",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -576,14 +627,8 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "withdrawExcessServiceProviderStake",
+    "inputs": [],
+    "name": "withdrawServiceProviderStake",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -606,6 +651,11 @@
       {
         "internalType": "uint256",
         "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "lastStakedBlock",
         "type": "uint256"
       }
     ],

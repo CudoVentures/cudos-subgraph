@@ -207,6 +207,12 @@
         "internalType": "address",
         "name": "serviceProvider",
         "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "serviceProviderContract",
+        "type": "address"
       }
     ],
     "name": "ServiceProviderWhitelisted",

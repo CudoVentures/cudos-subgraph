@@ -1,28 +1,4 @@
-type VestingDrawDown @entity {
-  id: ID!
-  beneficiary: Bytes!
-  amount: BigDecimal!
-  timestamp: BigInt!
-}
-
-type VestingBeneficiary @entity {
-  id: ID!
-  beneficiary: Bytes!
-  start: BigInt!,
-  end: BigInt!,
-  cliff: BigInt!,
-  duration:BigInt!
-  totalAmountVested: BigDecimal!,
-  totalAmountDrawnDown: BigDecimal!
-}
-
-type VestingSummary @entity {
-  id: ID!
-  totalAmountVested: BigDecimal!
-  totalAmountDrawnDown: BigDecimal!
-}
-
-type Delegator @entity {
+type Delegation @entity {
   id: ID!
   delegator: Bytes!
   serviceProvider: Bytes!
@@ -39,8 +15,14 @@ type ServiceProvider @entity {
   rewardsFeePercentage: BigInt!
   totalDelegatedStake: BigInt!
   rewardsProgrammeId: BigInt!
+  serviceProviderManager: Bytes!
+  serviceProviderBond: BigInt!
+  withdrawalRequestAmount: BigInt!
+  withdrawalPermittedFrom: BigInt!
 }
 
-type StakingRewards @entity {
+type StakingReward @entity {
   id: ID!
+  minServiceProviderFee: BigInt!
+  minRequiredStakingAmountForServiceProviders: BigInt!
 }
