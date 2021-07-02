@@ -1,5 +1,6 @@
 import { ServiceProvider } from '../generated/templates'
 import {
+    MaxStakingAmountForServiceProvidersUpdated,
     MinRequiredStakingAmountForServiceProvidersUpdated,
     MinServiceProviderFeeUpdated,
     ServiceProviderWhitelisted
@@ -15,6 +16,7 @@ function safeLoadStakingRewards(id: string): StakingReward {
         entity = new StakingReward(id)
         entity.minServiceProviderFee = BigInt.fromI32(200)
         entity.minRequiredStakingAmountForServiceProviders = BigInt.fromI32(2_000_000).times((BigInt.fromI32(10).pow(18))) // 2_000_000 * 10 ** 18
+        entity.maxStakingAmountForServiceProviders = BigInt.fromI32(1_000_000_000).times((BigInt.fromI32(10).pow(18))) // 1_000_000_000 * 10 ** 18
     }
 
     return entity as StakingReward
@@ -42,5 +44,10 @@ export function handleMinServiceProviderFeeUpdated(event: MinServiceProviderFeeU
 export function handleMinRequiredStakingAmountForServiceProvidersUpdated(event: MinRequiredStakingAmountForServiceProvidersUpdated): void {
     const stakingRewards = safeLoadStakingRewards(event.address.toHexString());
     stakingRewards.minRequiredStakingAmountForServiceProviders = event.params.newValue
+    stakingRewards.save()
+}
+export function handleMaxStakingAmountForServiceProvidersUpdated(event: MaxStakingAmountForServiceProvidersUpdated): void {
+    const stakingRewards = safeLoadStakingRewards(event.address.toHexString());
+    stakingRewards.maxStakingAmountForServiceProviders = event.params.newValue
     stakingRewards.save()
 }

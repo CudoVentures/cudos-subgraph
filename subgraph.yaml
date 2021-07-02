@@ -26,6 +26,8 @@ dataSources:
           handler: handleMinServiceProviderFeeUpdated
         - event: MinRequiredStakingAmountForServiceProvidersUpdated(uint256,uint256)
           handler: handleMinRequiredStakingAmountForServiceProvidersUpdated
+        - event: MaxStakingAmountForServiceProvidersUpdated(uint256,uint256)
+          handler: handleMaxStakingAmountForServiceProvidersUpdated
 templates:
   - name: ServiceProvider
     kind: ethereum/contract

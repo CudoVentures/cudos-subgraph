@@ -25,4 +25,5 @@ type StakingReward @entity {
   id: ID!
   minServiceProviderFee: BigInt!
   minRequiredStakingAmountForServiceProviders: BigInt!
+  maxStakingAmountForServiceProviders: BigInt!
 }
