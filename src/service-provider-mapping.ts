@@ -68,7 +68,7 @@ export function handleServiceProviderStakedBond(event: StakedServiceProviderBond
 
 export function handleStakeDelegatedToServiceProvider(event: AddDelegatedStake): void {
     let delegator = safeLoadDelegator(event.params.user, event.address)
-
+    delegator.lastDelegationTxHash = event.transaction.hash
     delegator.delegatedStake = event.params.totalAmount
 
     delegator.save()

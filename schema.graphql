@@ -6,6 +6,7 @@ type Delegation @entity {
   withdrawalRequested: Boolean!
   withdrawalRequestAmount: BigInt!
   withdrawalPermittedFrom: BigInt!
+  lastDelegationTxHash: Bytes!
 }
 
 type ServiceProvider @entity {
