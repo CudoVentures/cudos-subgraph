@@ -8,7 +8,7 @@ dataSources:
     source:
       address: '0xb4382A344aDdd0c7DacA584f8cABFE16c3ABeB12'
       abi: StakingRewards
-      startBlock: 8819361
+      startBlock: 8819362
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.3
@@ -50,19 +50,19 @@ templates:
       eventHandlers:
         - event: StakedServiceProviderBond(indexed address,indexed address,indexed uint256,uint256)
           handler: handleServiceProviderStakedBond
-        - event: AddDelegatedStake(indexed address,indexed uint256,uint256)
+        - event: AddDelegatedStake(indexed address,uint256,uint256)
           handler: handleStakeDelegatedToServiceProvider
-        - event: WithdrawDelegatedStakeRequested(indexed address,indexed uint256,uint256)
+        - event: WithdrawDelegatedStakeRequested(indexed address,uint256,uint256)
           handler: handleDelegatedStakeWithdrawalRequested
-        - event: WithdrewDelegatedStake(indexed address,indexed uint256,uint256)
+        - event: WithdrewDelegatedStake(indexed address,uint256,uint256)
           handler: handleDelegatedStakeWithdrawn
         - event: IncreasedServiceProviderBond(indexed address,indexed uint256,uint256,uint256)
           handler: handleIncreasedServiceProviderBond
         - event: DecreasedServiceProviderBond(indexed address,indexed uint256,uint256,uint256)
           handler: handleDecreasedServiceProviderBond
-        - event: WithdrewServiceProviderStake(indexed address,indexed uint256,uint256)
+        - event: WithdrewServiceProviderStake(indexed address,uint256,uint256)
           handler: handleWithdrewServiceProviderStake
         - event: ExitedServiceProviderBond(indexed address,indexed uint256)
           handler: handleExitedServiceProviderBond
-        - event: ExitDelegatedStake(indexed address,indexed uint256)
+        - event: ExitDelegatedStake(indexed address,uint256)
           handler: handleExitDelegatedStake
