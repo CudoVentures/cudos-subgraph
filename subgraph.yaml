@@ -6,7 +6,7 @@ dataSources:
     name: ServiceProvider
     network: rinkeby
     source:
-      address: '0x2b0C98b9fBc72544B766eaa1D2dF003De88BD04f'
+      address: '0xb4382A344aDdd0c7DacA584f8cABFE16c3ABeB12'
       abi: StakingRewards
       startBlock: 8819361
     mapping:
