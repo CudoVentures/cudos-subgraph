@@ -6,7 +6,7 @@ dataSources:
     name: StakingRewards
     network: rinkeby
     source:
-      address: '0x0aBE6c3Ba8F907cc26DF07ec2C19d0176aF54511'
+      address: '0xc2A6f2227238F117Be6bc25d241dEad4C4639C83'
       abi: StakingRewards
       startBlock: 8819362
     mapping:
