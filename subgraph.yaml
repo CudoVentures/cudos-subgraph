@@ -3,10 +3,10 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: ServiceProvider
+    name: StakingRewards
     network: rinkeby
     source:
-      address: '0xb4382A344aDdd0c7DacA584f8cABFE16c3ABeB12'
+      address: '0x0aBE6c3Ba8F907cc26DF07ec2C19d0176aF54511'
       abi: StakingRewards
       startBlock: 8819362
     mapping:
