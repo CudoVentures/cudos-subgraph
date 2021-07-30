@@ -8,7 +8,7 @@ dataSources:
     source:
       address: '0xac50c843c539fe2831dd73f13c189bd2452a5e65'
       abi: StakingRewards
-      startBlock: 8819362
+      startBlock: 12926870
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.3
