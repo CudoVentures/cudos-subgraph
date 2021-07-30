@@ -4,7 +4,7 @@ import {
     MinRequiredStakingAmountForServiceProvidersUpdated,
     MinServiceProviderFeeUpdated,
     ServiceProviderWhitelisted
-} from "../generated/ServiceProvider/StakingRewards";
+} from "../generated/StakingRewards/StakingRewards";
 import {safeLoadServiceProvider} from "./service-provider-mapping";
 import {BigInt, Bytes} from "@graphprotocol/graph-ts";
 import {StakingReward} from "../generated/schema";
