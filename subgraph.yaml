@@ -11,7 +11,7 @@ dataSources:
       startBlock: 12926870
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.3
+      apiVersion: 0.0.4
       language: wasm/assemblyscript
       file: ./src/staking-rewards-mapping.ts
       entities:
@@ -36,7 +36,7 @@ templates:
       abi: ServiceProvider
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.3
+      apiVersion: 0.0.4
       language: wasm/assemblyscript
       file: ./src/service-provider-mapping.ts
       entities:
