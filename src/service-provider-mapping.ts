@@ -14,9 +14,12 @@ import {
     ExitedServiceProviderBond, ExitDelegatedStake
 } from "../generated/templates/ServiceProvider/ServiceProvider"
 
-import {ZERO} from "./helpers"
+import { dataSource } from '@graphprotocol/graph-ts'
+
+import {ZERO, ZERO_ADDRESS} from "./helpers"
 import {Address} from "@graphprotocol/graph-ts/index";
 import {BigInt} from "@graphprotocol/graph-ts";
+import { safeLoadStakingRewards } from "./staking-rewards-mapping";
 
 // loads a delegator for a specific service provider
 function safeLoadDelegator(delegator: Address, serviceProvider: Address): Delegation {
@@ -42,6 +45,8 @@ export function safeLoadServiceProvider(id: string): ServiceProvider {
 
     if (entity == null) {
         entity = new ServiceProvider(id)
+        entity.serviceProvider = ZERO_ADDRESS
+        entity.serviceProviderManager = ZERO_ADDRESS
         entity.isServiceProviderActive = false
         entity.exited = false
         entity.rewardsFeePercentage = ZERO
@@ -55,14 +60,19 @@ export function safeLoadServiceProvider(id: string): ServiceProvider {
 }
 
 export function handleServiceProviderStakedBond(event: StakedServiceProviderBond): void {
-    let serviceProvider = safeLoadServiceProvider(event.address.toHexString())
-    serviceProvider.isServiceProviderActive = true
-    serviceProvider.rewardsProgrammeId = event.params.pid
+    // dataSource.address is the address for the StakingRewards contract in the subgraph.yaml config (line 9)
+    const stakingRewards = safeLoadStakingRewards(dataSource.address.toString())
+    stakingRewards.save()
 
     const serviceProviderContract = ServiceProviderContract.bind(event.address)
+
+    let serviceProvider = safeLoadServiceProvider(event.address.toHexString())
+    serviceProvider.isServiceProviderActive = true
+    serviceProvider.rewardsProgrammeId = event.params.pid    
+    serviceProvider.serviceProviderManager = event.params.serviceProviderManager
     serviceProvider.rewardsFeePercentage = serviceProviderContract.rewardsFeePercentage()
     serviceProvider.totalDelegatedStake = serviceProviderContract.delegatedStake(event.params.serviceProvider)
-
+    serviceProvider.serviceProviderBond = stakingRewards.minRequiredStakingAmountForServiceProviders
     serviceProvider.save()
 }
 
