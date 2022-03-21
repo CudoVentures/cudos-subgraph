@@ -5,11 +5,11 @@ import {
     MinServiceProviderFeeUpdated,
     ServiceProviderWhitelisted
 } from "../generated/StakingRewards/StakingRewards";
-import {safeLoadServiceProvider} from "./service-provider-mapping";
-import {BigInt, Bytes} from "@graphprotocol/graph-ts";
-import {StakingReward} from "../generated/schema";
+import { safeLoadServiceProvider } from "./service-provider-mapping";
+import { BigInt } from "@graphprotocol/graph-ts";
+import { StakingReward } from "../generated/schema";
 
-function safeLoadStakingRewards(id: string): StakingReward {
+export function safeLoadStakingRewards(id: string): StakingReward {
     let entity = StakingReward.load(id)
 
     if (entity == null) {
@@ -29,7 +29,7 @@ export function handleNewServiceProviderWhitelisted(event: ServiceProviderWhitel
     const stakingRewards = safeLoadStakingRewards(event.address.toHexString());
     stakingRewards.save()
     const serviceProvider = safeLoadServiceProvider(event.params.serviceProviderContract.toHexString());
-    serviceProvider.serviceProviderManager = event.params.serviceProvider
+    serviceProvider.serviceProvider = event.params.serviceProvider
     serviceProvider.serviceProviderBond = stakingRewards.minRequiredStakingAmountForServiceProviders
     serviceProvider.save()
     ServiceProvider.create(event.params.serviceProviderContract)
