@@ -16,6 +16,7 @@ type ServiceProvider @entity {
   rewardsFeePercentage: BigInt!
   totalDelegatedStake: BigInt!
   rewardsProgrammeId: BigInt!
+  serviceProvider: Bytes!
   serviceProviderManager: Bytes!
   serviceProviderBond: BigInt!
   withdrawalRequestAmount: BigInt!
