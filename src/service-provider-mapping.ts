@@ -14,12 +14,9 @@ import {
     ExitedServiceProviderBond, ExitDelegatedStake
 } from "../generated/templates/ServiceProvider/ServiceProvider"
 
-import { dataSource } from '@graphprotocol/graph-ts'
-
 import {ZERO, ZERO_ADDRESS} from "./helpers"
 import {Address} from "@graphprotocol/graph-ts/index";
 import {BigInt} from "@graphprotocol/graph-ts";
-import { safeLoadStakingRewards } from "./staking-rewards-mapping";
 
 // loads a delegator for a specific service provider
 function safeLoadDelegator(delegator: Address, serviceProvider: Address): Delegation {
@@ -60,10 +57,6 @@ export function safeLoadServiceProvider(id: string): ServiceProvider {
 }
 
 export function handleServiceProviderStakedBond(event: StakedServiceProviderBond): void {
-    // dataSource.address is the address for the StakingRewards contract in the subgraph.yaml config (line 9)
-    const stakingRewards = safeLoadStakingRewards(dataSource.address.toString())
-    stakingRewards.save()
-
     const serviceProviderContract = ServiceProviderContract.bind(event.address)
 
     let serviceProvider = safeLoadServiceProvider(event.address.toHexString())
@@ -72,7 +65,7 @@ export function handleServiceProviderStakedBond(event: StakedServiceProviderBond
     serviceProvider.serviceProviderManager = event.params.serviceProviderManager
     serviceProvider.rewardsFeePercentage = serviceProviderContract.rewardsFeePercentage()
     serviceProvider.totalDelegatedStake = serviceProviderContract.delegatedStake(event.params.serviceProvider)
-    serviceProvider.serviceProviderBond = stakingRewards.minRequiredStakingAmountForServiceProviders
+    serviceProvider.serviceProviderBond = BigInt.fromI32(2_000_000).times((BigInt.fromI32(10).pow(18))) // 2_000_000 * 10 ** 18
     serviceProvider.save()
 }
 
