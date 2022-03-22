@@ -30,7 +30,6 @@ export function handleNewServiceProviderWhitelisted(event: ServiceProviderWhitel
     stakingRewards.save()
     const serviceProvider = safeLoadServiceProvider(event.params.serviceProviderContract.toHexString());
     serviceProvider.serviceProvider = event.params.serviceProvider
-    serviceProvider.serviceProviderBond = stakingRewards.minRequiredStakingAmountForServiceProviders
     serviceProvider.save()
     ServiceProvider.create(event.params.serviceProviderContract)
 }
