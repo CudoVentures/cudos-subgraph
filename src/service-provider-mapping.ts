@@ -14,7 +14,7 @@ import {
     ExitedServiceProviderBond, ExitDelegatedStake
 } from "../generated/templates/ServiceProvider/ServiceProvider"
 
-import {ZERO} from "./helpers"
+import {ZERO, ZERO_ADDRESS} from "./helpers"
 import {Address} from "@graphprotocol/graph-ts/index";
 import {BigInt} from "@graphprotocol/graph-ts";
 
@@ -42,6 +42,8 @@ export function safeLoadServiceProvider(id: string): ServiceProvider {
 
     if (entity == null) {
         entity = new ServiceProvider(id)
+        entity.serviceProvider = ZERO_ADDRESS
+        entity.serviceProviderManager = ZERO_ADDRESS
         entity.isServiceProviderActive = false
         entity.exited = false
         entity.rewardsFeePercentage = ZERO
@@ -55,14 +57,15 @@ export function safeLoadServiceProvider(id: string): ServiceProvider {
 }
 
 export function handleServiceProviderStakedBond(event: StakedServiceProviderBond): void {
+    const serviceProviderContract = ServiceProviderContract.bind(event.address)
+
     let serviceProvider = safeLoadServiceProvider(event.address.toHexString())
     serviceProvider.isServiceProviderActive = true
-    serviceProvider.rewardsProgrammeId = event.params.pid
-
-    const serviceProviderContract = ServiceProviderContract.bind(event.address)
+    serviceProvider.rewardsProgrammeId = event.params.pid    
+    serviceProvider.serviceProviderManager = event.params.serviceProviderManager
     serviceProvider.rewardsFeePercentage = serviceProviderContract.rewardsFeePercentage()
     serviceProvider.totalDelegatedStake = serviceProviderContract.delegatedStake(event.params.serviceProvider)
-
+    serviceProvider.serviceProviderBond = BigInt.fromI32(2_000_000).times((BigInt.fromI32(10).pow(18))) // 2_000_000 * 10 ** 18
     serviceProvider.save()
 }
 
