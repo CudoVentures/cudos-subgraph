@@ -51,6 +51,7 @@ export function safeLoadServiceProvider(id: string): ServiceProvider {
         entity.rewardsProgrammeId = ZERO
         entity.withdrawalRequestAmount = ZERO
         entity.withdrawalPermittedFrom = ZERO
+        entity.serviceProviderBond = ZERO
     }
 
     return entity as ServiceProvider
